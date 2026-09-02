@@ -14,15 +14,11 @@
     "@angular/compiler": "^17.3.0",
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
-    "@angular/upgrade": "^17.3.0",
     "rxjs": "~7.8.0",
     "zone.js": "~0.14.4",
     "reflect-metadata": "^0.2.1"
   },
   "devDependencies": {
-    "angular": "1.8.3",
-    "angular-mocks": "1.8.3",
-    "@types/angular": "^1.8.9",
     "@types/jasmine": "^5.1.0",
     "karma": "^6.4.0",
     "karma-jasmine": "^5.1.0",

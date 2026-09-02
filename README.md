@@ -16,7 +16,7 @@ each commit is small enough to revert on its own.
 - [x] Stage 3 — TaskService ported to Angular, downgraded for AngularJS to keep consuming
 - [x] Stage 4 — taskItem component ported and downgraded
 - [x] Stage 5 — TaskListController ported to an Angular component
-- [ ] Stage 6 — AngularJS removed entirely
+- [x] Stage 6 — AngularJS removed entirely
 
 Full write-up of the reasoning behind the ordering, and the test gate
 for each stage, is in [`MIGRATION_GUIDE.md`](./MIGRATION_GUIDE.md).

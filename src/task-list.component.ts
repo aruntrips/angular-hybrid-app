@@ -1,12 +1,8 @@
 // src/task-list.component.ts
 //
 // Angular-native replacement for js/controllers/taskListController.js.
-// Downgraded via downgradeComponent(), same [input]/(output)
-// mechanics as task-item.component.ts. This component now owns the
-// whole app shell - previously the ng-controller="TaskListController
-// as vm" root in index.html - so its template is native Angular
-// throughout (*ngFor/*ngIf, event bindings), not ng-repeat/ng-if: no
-// AngularJS syntax survives inside it.
+// As of Stage 6, bootstrapped directly (no downgradeComponent() - see
+// app.module.ts) as this app's root component.
 import { Component } from '@angular/core';
 import { Task, TaskService } from './task.service';
 
@@ -18,7 +14,7 @@ type Filter = 'all' | 'active' | 'done';
     <div class="app-shell">
       <header>
         <h1>Task Manager</h1>
-        <p class="subtitle">AngularJS 1.x sample app — hybrid migration practice ground</p>
+        <p class="subtitle">Migrated from AngularJS to Angular, one stage at a time</p>
       </header>
 
       <section class="add-task">

@@ -1,36 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--
-  No ng-app here anymore. As of Stage 2, Angular's UpgradeModule
-  bootstraps 'taskApp' manually (see src/app.module.ts). Leaving
-  ng-app in place alongside that would auto-bootstrap AngularJS a
-  second time and throw a "already bootstrapped" error.
--->
 <head>
   <meta charset="UTF-8" />
   <title>Task Manager — AngularJS → Angular Hybrid Migration</title>
   <link rel="stylesheet" href="css/style.css" />
-  <!-- AngularJS core, loaded from CDN -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
 </head>
 <body>
   <!--
-    As of Stage 5, this is the whole app: TaskListController is gone,
-    ported to TaskListComponent (src/task-list.component.ts) and
-    downgraded to this <task-list> element. AngularJS's only remaining
-    job is bootstrapping 'taskApp' and compiling this one tag.
+    Stage 6: AngularJS is gone - no CDN script tag, no js/app.js, no
+    UpgradeModule. <task-list> is now bootstrapped directly by Angular
+    (see src/app.module.ts's `bootstrap: [TaskListComponent]`), the
+    same way any ordinary Angular app boots onto a root element.
   -->
   <task-list></task-list>
 
-  <!-- App module: still needed - 'taskApp' is what UpgradeModule bootstraps -->
-  <script src="js/app.js"></script>
-
-  <!--
-    Must load AFTER the script above: 'taskApp' needs to already be
-    registered with AngularJS before Angular's bootstrapModule() call
-    runs and asks UpgradeModule to bootstrap it. taskItem and taskList
-    are both registered by dist/bundle.js itself (downgradeComponent).
-  -->
   <script src="dist/bundle.js"></script>
 </body>
 </html>

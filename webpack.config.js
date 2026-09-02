@@ -32,7 +32,16 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, '.')
+      directory: path.resolve(__dirname, '.'),
+      // `directory` is the whole project root (so index.html/css/ are
+      // reachable), and dev-server watches it recursively by default -
+      // which means node_modules too. Watching every file under
+      // node_modules (thousands of them, e.g. all of
+      // @angular/common/locales/) hits the OS's per-process open-file
+      // limit - EMFILE: too many open files - crashing the dev server
+      // on startup. Nothing in node_modules changes during a dev
+      // session anyway, so exclude it from the watch.
+      watch: { ignored: /node_modules/ }
     },
     port: 4300,
     open: false
