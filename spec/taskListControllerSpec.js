@@ -1,12 +1,40 @@
 // spec/taskListControllerSpec.js
+//
+// Stubs TaskService with $provide.value instead of injecting the real
+// one. This decouples the controller test from TaskService's
+// implementation entirely — it no longer matters whether 'TaskService'
+// resolves to the old plain AngularJS factory or (as of Stage 3) a
+// downgraded Angular class. SpecRunner.html doesn't even need to load
+// the Angular bundle for this spec to run.
 describe('TaskListController', function () {
-  beforeEach(module('taskApp'));
+  var fakeTasks;
+  var FakeTaskService;
 
-  var $controller, TaskService, vm;
+  beforeEach(function () {
+    fakeTasks = [
+      { id: 1, title: 'Stubbed task one', done: false },
+      { id: 2, title: 'Stubbed task two', done: true }
+    ];
 
-  beforeEach(inject(function (_$controller_, _TaskService_) {
+    FakeTaskService = {
+      getAll: function () { return fakeTasks; },
+      add: function (title) { fakeTasks.push({ id: 99, title: title, done: false }); },
+      remove: function (task) {
+        var idx = fakeTasks.indexOf(task);
+        if (idx > -1) fakeTasks.splice(idx, 1);
+      },
+      toggle: function (task) { task.done = !task.done; }
+    };
+  });
+
+  beforeEach(module('taskApp', function ($provide) {
+    $provide.value('TaskService', FakeTaskService);
+  }));
+
+  var $controller, vm;
+
+  beforeEach(inject(function (_$controller_) {
     $controller = _$controller_;
-    TaskService = _TaskService_;
     vm = $controller('TaskListController');
   }));
 
@@ -15,7 +43,7 @@ describe('TaskListController', function () {
   });
 
   it('filteredTasks returns all tasks when filter is "all"', function () {
-    expect(vm.filteredTasks().length).toBe(TaskService.getAll().length);
+    expect(vm.filteredTasks().length).toBe(fakeTasks.length);
   });
 
   it('filteredTasks returns only active tasks when filter is "active"', function () {
@@ -31,22 +59,22 @@ describe('TaskListController', function () {
   });
 
   it('addTask adds a task and clears the input field', function () {
-    var before = TaskService.getAll().length;
+    var before = fakeTasks.length;
     vm.newTaskTitle = 'Write tests';
     vm.addTask();
-    expect(TaskService.getAll().length).toBe(before + 1);
+    expect(fakeTasks.length).toBe(before + 1);
     expect(vm.newTaskTitle).toBe('');
   });
 
   it('addTask does nothing when the title is empty', function () {
-    var before = TaskService.getAll().length;
+    var before = fakeTasks.length;
     vm.newTaskTitle = '';
     vm.addTask();
-    expect(TaskService.getAll().length).toBe(before);
+    expect(fakeTasks.length).toBe(before);
   });
 
   it('remainingCount counts only the not-done tasks', function () {
-    var expected = TaskService.getAll().filter(function (t) { return !t.done; }).length;
+    var expected = fakeTasks.filter(function (t) { return !t.done; }).length;
     expect(vm.remainingCount()).toBe(expected);
   });
 });

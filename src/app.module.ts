@@ -1,13 +1,20 @@
 // src/app.module.ts
 //
-// This is the seam between the two frameworks. At this stage it does
-// not declare or downgrade any components yet — that starts in Stage 3
-// (TaskService) and Stage 4 (taskItem). Right now its only job is to
-// prove Angular can bootstrap AngularJS's existing 'taskApp' module
-// with zero behavior change.
+// This is the seam between the two frameworks. Stage 3 adds the first
+// downgraded piece: TaskService. TaskListController (still AngularJS)
+// keeps injecting 'TaskService' by name exactly as before — it has no
+// idea the implementation moved to Angular.
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { UpgradeModule } from '@angular/upgrade/static';
+import { UpgradeModule, downgradeInjectable } from '@angular/upgrade/static';
+import { TaskService } from './task.service';
+
+declare const angular: angular.IAngularStatic;
+
+// Runs at module-load time (before bootstrap), so the AngularJS
+// 'taskApp' module has this provider queued and ready before
+// AppModule.ngDoBootstrap() below asks AngularJS to bootstrap.
+angular.module('taskApp').factory('TaskService', downgradeInjectable(TaskService));
 
 @NgModule({
   imports: [BrowserModule, UpgradeModule]

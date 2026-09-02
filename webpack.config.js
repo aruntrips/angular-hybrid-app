@@ -1,14 +1,16 @@
 // webpack.config.js
 //
-// Stage 1 goal: prove this pipeline compiles and runs on its own.
-// It does NOT touch js/app.js, js/services/*, js/controllers/*, or
-// js/components/* — those stay exactly as-is, loaded the old way via
-// plain <script> tags in index.html. This config only knows about
-// ./src, a brand-new empty directory reserved for future Angular code.
+// Two entries: 'bundle' is the real app (loaded by index.html),
+// 'spec-bundle' compiles the TypeScript Jasmine specs under spec/ so
+// SpecRunner.html can load them as a plain <script> too — TS specs
+// need this since browsers can't run .ts files directly.
 const path = require('path');
 
 module.exports = {
-  entry: './src/main.ts',
+  entry: {
+    bundle: './src/main.ts',
+    'spec-bundle': './spec/task.service.spec.ts'
+  },
   module: {
     rules: [
       {
@@ -22,7 +24,7 @@ module.exports = {
     extensions: ['.ts', '.js']
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
