@@ -3,13 +3,16 @@
 // Two entries: 'bundle' is the real app (loaded by index.html),
 // 'spec-bundle' compiles the TypeScript Jasmine specs under spec/ so
 // SpecRunner.html can load them as a plain <script> too — TS specs
-// need this since browsers can't run .ts files directly.
+// need this since browsers can't run .ts files directly. As of
+// Stage 5, all specs are TypeScript, so 'spec-bundle' is an array of
+// every spec file - webpack concatenates array entries into one
+// output bundle.
 const path = require('path');
 
 module.exports = {
   entry: {
     bundle: './src/main.ts',
-    'spec-bundle': './spec/task.service.spec.ts'
+    'spec-bundle': ['./spec/task.service.spec.ts', './spec/task-list.component.spec.ts']
   },
   module: {
     rules: [

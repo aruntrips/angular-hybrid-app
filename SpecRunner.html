@@ -4,30 +4,20 @@
   <meta charset="UTF-8" />
   <title>Task Manager — Test Suite</title>
 
-  <!-- Jasmine core (must load before Angular files) -->
+  <!-- Jasmine core -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine-html.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/boot.js"></script>
 
-  <!-- AngularJS + ngMock (must match the app's Angular version) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-mocks/1.8.3/angular-mocks.js"></script>
-
-  <!-- App source, in dependency order -->
-  <script src="js/app.js"></script>
-  <script src="js/controllers/taskListController.js"></script>
-
   <!--
-    Compiled from spec/task.service.spec.ts by webpack (run `npm run
-    build` after any spec/*.ts change - this file does not auto-update).
-    Tests TaskService directly as an Angular class; doesn't touch
-    AngularJS at all, so it's independent of the app.js load above.
+    Compiled from spec/*.spec.ts by webpack (run `npm run build` after
+    any spec/*.ts change - this file does not auto-update). As of
+    Stage 5, every remaining spec tests a plain Angular class by
+    direct instantiation - no AngularJS, no angular-mocks, no TestBed.
+    This is the whole test suite now.
   -->
   <script src="dist/spec-bundle.js"></script>
-
-  <!-- Spec files -->
-  <script src="spec/taskListControllerSpec.js"></script>
 </head>
 <body>
   <!-- boot.js injects the Jasmine HTML reporter here automatically -->

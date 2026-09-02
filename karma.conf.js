@@ -1,27 +1,20 @@
 // karma.conf.js
 // Use this once you're ready to run tests headlessly in CI, via `npm test`.
 //
-// NOTE: spec/task.service.spec.ts is TypeScript and is NOT covered by
-// this config - plain Karma only loads .js files. SpecRunner.html
-// handles it today by loading webpack's compiled dist/spec-bundle.js.
-// To bring it into this CI config too, add karma-webpack as a
-// preprocessor for spec/**/*.ts, or point Karma at the same
-// dist/spec-bundle.js output after `npm run build`.
-//
-// js/components/taskItem.component.js dropped from `files` as of
-// Stage 4 - that file no longer exists, taskItem is now an Angular
-// component loaded via dist/bundle.js.
+// As of Stage 5, TaskListController (and its taskListControllerSpec.js)
+// are both gone - ported to TaskListComponent, tested by
+// spec/task-list.component.spec.ts. Every remaining spec is
+// TypeScript, so - rather than leave `files` empty (Karma exits 1 on
+// 0 specs found, which would make `npm test` register as a CI
+// failure) - this points straight at dist/spec-bundle.js, the same
+// webpack output SpecRunner.html loads. Run `npm run build` first;
+// this config doesn't compile spec/**/*.ts itself (that would need
+// karma-webpack as a preprocessor).
 module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
-    files: [
-      'node_modules/angular/angular.js',
-      'node_modules/angular-mocks/angular-mocks.js',
-      'js/app.js',
-      'js/controllers/taskListController.js',
-      'spec/taskListControllerSpec.js'
-    ],
+    files: ['dist/spec-bundle.js'],
     reporters: ['progress'],
     port: 9876,
     colors: true,

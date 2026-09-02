@@ -14,60 +14,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
 </head>
 <body>
-  <div class="app-shell" ng-controller="TaskListController as vm">
-    <header>
-      <h1>Task Manager</h1>
-      <p class="subtitle">AngularJS 1.x sample app — hybrid migration practice ground</p>
-    </header>
+  <!--
+    As of Stage 5, this is the whole app: TaskListController is gone,
+    ported to TaskListComponent (src/task-list.component.ts) and
+    downgraded to this <task-list> element. AngularJS's only remaining
+    job is bootstrapping 'taskApp' and compiling this one tag.
+  -->
+  <task-list></task-list>
 
-    <section class="add-task">
-      <input
-        type="text"
-        ng-model="vm.newTaskTitle"
-        placeholder="Add a new task..."
-        ng-keyup="$event.keyCode === 13 && vm.addTask()"
-      />
-      <button ng-click="vm.addTask()" ng-disabled="!vm.newTaskTitle">Add</button>
-    </section>
-
-    <section class="filters">
-      <button
-        ng-repeat="f in vm.filters"
-        ng-click="vm.setFilter(f)"
-        ng-class="{active: vm.currentFilter === f}"
-      >
-        {{ f }}
-      </button>
-    </section>
-
-    <section class="task-list">
-      <task-item
-        ng-repeat="task in vm.filteredTasks()"
-        [task]="task"
-        (toggle)="vm.toggleTask(task)"
-        (remove)="vm.removeTask(task)"
-      ></task-item>
-
-      <p class="empty-state" ng-if="vm.filteredTasks().length === 0">
-        No tasks match this filter.
-      </p>
-    </section>
-
-    <footer>
-      <span>{{ vm.remainingCount() }} remaining</span>
-    </footer>
-  </div>
-
-  <!-- App module + pieces -->
+  <!-- App module: still needed - 'taskApp' is what UpgradeModule bootstraps -->
   <script src="js/app.js"></script>
-  <script src="js/controllers/taskListController.js"></script>
 
   <!--
-    Must load AFTER the scripts above: 'taskApp' needs to already be
+    Must load AFTER the script above: 'taskApp' needs to already be
     registered with AngularJS before Angular's bootstrapModule() call
-    runs and asks UpgradeModule to bootstrap it. taskItem is now
-    registered by dist/bundle.js itself (downgradeComponent), not by a
-    separate js/components/taskItem.component.js file.
+    runs and asks UpgradeModule to bootstrap it. taskItem and taskList
+    are both registered by dist/bundle.js itself (downgradeComponent).
   -->
   <script src="dist/bundle.js"></script>
 </body>
