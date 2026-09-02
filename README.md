@@ -12,7 +12,7 @@ each commit is small enough to revert on its own.
 
 - [x] Stage 0 — characterization tests in place before any migration code
 - [x] Stage 1 — webpack + TypeScript build added alongside the existing app, unwired
-- [ ] Stage 2 — hybrid bootstrap via UpgradeModule, replacing ng-app
+- [x] Stage 2 — hybrid bootstrap via UpgradeModule, replacing ng-app
 - [ ] Stage 3 — TaskService ported to Angular, downgraded for AngularJS to keep consuming
 - [ ] Stage 4 — taskItem component ported and downgraded
 - [ ] Stage 5 — TaskListController ported to an Angular component
