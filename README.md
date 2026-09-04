@@ -17,7 +17,7 @@ each commit is small enough to revert on its own.
 - ✅ **Stage 4** — `taskItem` component ported and downgraded
 - ✅ **Stage 5** — `TaskListController` ported to an Angular component
 - ✅ **Stage 6** — AngularJS removed entirely
-- ⬜ **Stage 7** — split into a monorepo (`apps/`/`packages/`, Nx)
+- ✅ **Stage 7** — split into a monorepo (`apps/`/`packages/`, Nx)
 - ⬜ **Stage 8** — independent build/test/deploy per package
 
 Full write-up of the reasoning behind the ordering, and the test gate
@@ -27,11 +27,16 @@ for each stage, is in [`MIGRATION_GUIDE.md`](./MIGRATION_GUIDE.md).
 
 ```bash
 npm install
-npm run build
+npm run build   # nx build task-manager
+npm test        # nx run-many --target=test --all
+npm run serve   # nx serve task-manager, http://localhost:4300
 ```
 
-Then open `index.html` for the app, or `SpecRunner.html` for the test
-suite (both run directly in a browser, no dev server required).
+As of Stage 7 this is an Nx monorepo (`apps/task-manager`,
+`packages/task-core`, `packages/task-ui`) rather than a single flat
+project - `npm run build` only builds the app, but `npm test` runs
+every package's own test target (`nx run-many --target=test --all`).
+Run `npx nx graph` to see the dependency boundaries between them.
 
 ## Why this exists
 

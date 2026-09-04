@@ -1,13 +1,13 @@
-// spec/task-list.component.spec.ts
+// packages/task-ui/src/task-list.component.spec.ts
 //
-// Replaces taskListControllerSpec.js now that TaskListController is
-// gone. Same approach as task.service.spec.ts: TaskListComponent's
-// logic doesn't touch its own template, so it's tested by direct
-// instantiation - no TestBed/AngularJS scaffolding needed. TaskService
-// is stubbed the same way the old spec stubbed it via $provide.value,
-// just passed straight to the constructor here.
-import { TaskListComponent } from '../src/task-list.component';
-import { Task, TaskService } from '../src/task.service';
+// Same approach as task-core's spec: TaskListComponent's logic
+// doesn't touch its own template, so it's tested by direct
+// instantiation - no TestBed needed, and (as of Stage 7) no browser
+// either, just plain Jest. TaskService is stubbed and passed straight
+// to the constructor, decoupling this test from task-core's real
+// implementation entirely.
+import { TaskListComponent } from './task-list.component';
+import { Task, TaskService } from '@app/task-core';
 
 describe('TaskListComponent', () => {
   let fakeTasks: Task[];

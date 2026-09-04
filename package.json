@@ -2,30 +2,35 @@
   "name": "angular-hybrid-app",
   "version": "1.0.0",
   "description": "AngularJS -> Angular hybrid migration, staged and documented as a public case study",
+  "private": true,
   "scripts": {
-    "test": "karma start karma.conf.js --single-run",
-    "build": "webpack --mode production",
-    "watch": "webpack --mode development --watch",
-    "serve": "webpack serve --mode development"
+    "test": "nx run-many --target=test --all",
+    "build": "nx build task-manager",
+    "watch": "nx run task-manager:serve",
+    "serve": "nx serve task-manager",
+    "graph": "nx graph"
   },
   "dependencies": {
-    "@angular/core": "^17.3.0",
     "@angular/common": "^17.3.0",
     "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
+    "reflect-metadata": "^0.2.1",
     "rxjs": "~7.8.0",
-    "zone.js": "~0.14.4",
-    "reflect-metadata": "^0.2.1"
+    "zone.js": "~0.14.4"
   },
   "devDependencies": {
-    "@types/jasmine": "^5.1.0",
-    "karma": "^6.4.0",
-    "karma-jasmine": "^5.1.0",
-    "karma-chrome-launcher": "^3.2.0",
-    "jasmine-core": "^4.5.0",
-    "typescript": "^5.4.0",
+    "@angular/compiler-cli": "^17.3.12",
+    "@nx/js": "^19.8.14",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "jest-preset-angular": "^14.6.2",
+    "nx": "^19.0.0",
+    "ts-jest": "^29.1.0",
     "ts-loader": "^9.5.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.4.0",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"

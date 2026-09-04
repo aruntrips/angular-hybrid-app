@@ -1,10 +1,12 @@
-// src/task-list.component.ts
+// packages/task-ui/src/task-list.component.ts
 //
-// Angular-native replacement for js/controllers/taskListController.js.
-// As of Stage 6, bootstrapped directly (no downgradeComponent() - see
-// app.module.ts) as this app's root component.
+// Part of the task-ui package (Stage 7), which depends on task-core
+// for Task/TaskService (via the '@app/task-core' alias) - the same
+// dependency direction the migration itself established back in
+// Stages 3-5. Bootstrapped directly by apps/task-manager as the app's
+// root component (see that app's app.module.ts).
 import { Component } from '@angular/core';
-import { Task, TaskService } from './task.service';
+import { Task, TaskService } from '@app/task-core';
 
 type Filter = 'all' | 'active' | 'done';
 

@@ -1,10 +1,10 @@
-// src/task.service.ts
+// packages/task-core/src/task.service.ts
 //
-// Angular-native replacement for js/services/taskService.js. Same
-// public shape (getAll/add/remove/toggle) and same seed data, on
-// purpose — TaskListController (still AngularJS) must keep working
-// completely unchanged, consuming this through the downgraded
-// factory registered in app.module.ts.
+// The task-core package: the one file with zero AngularJS coupling
+// since Stage 3 (no DOM, no $scope, not even a constructor
+// dependency) - which is exactly why it's the cleanest first package
+// boundary for Stage 7's monorepo split. Consumed by
+// packages/task-ui's TaskListComponent via the '@app/task-core' alias.
 import { Injectable } from '@angular/core';
 
 export interface Task {

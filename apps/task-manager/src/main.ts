@@ -1,4 +1,4 @@
-// src/main.ts
+// apps/task-manager/src/main.ts
 //
 // Import order matters here:
 // 1. reflect-metadata FIRST - polyfills Reflect.metadata/getMetadata so

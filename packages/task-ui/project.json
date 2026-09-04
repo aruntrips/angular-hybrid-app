@@ -1,0 +1,15 @@
+{
+  "name": "task-ui",
+  "root": "packages/task-ui",
+  "sourceRoot": "packages/task-ui/src",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest --config packages/task-ui/jest.config.js",
+        "cwd": "."
+      }
+    }
+  }
+}

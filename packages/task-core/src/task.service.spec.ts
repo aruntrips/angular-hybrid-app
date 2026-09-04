@@ -1,10 +1,13 @@
-// spec/task.service.spec.ts
+// packages/task-core/src/task.service.spec.ts
 //
 // Replaces the old AngularJS-injection-based taskServiceSpec.js. Now
 // that TaskService is a plain Angular class with no constructor
 // dependencies, it doesn't need TestBed or any AngularJS scaffolding —
 // just instantiate it and test it like any other TypeScript class.
-import { TaskService } from '../src/task.service';
+// As of Stage 7, runs under plain Jest (Node), not a browser at all -
+// this file never touches Angular's compiler/DI/DOM, so there was
+// never a real reason it needed one.
+import { TaskService } from './task.service';
 
 describe('TaskService', () => {
   let service: TaskService;
