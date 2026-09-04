@@ -18,7 +18,7 @@ each commit is small enough to revert on its own.
 - ✅ **Stage 5** — `TaskListController` ported to an Angular component
 - ✅ **Stage 6** — AngularJS removed entirely
 - ✅ **Stage 7** — split into a monorepo (`apps/`/`packages/`, Nx)
-- ⬜ **Stage 8** — independent build/test/deploy per package
+- ✅ **Stage 8** — independent build/test/deploy per package
 
 Full write-up of the reasoning behind the ordering, and the test gate
 for each stage, is in [`MIGRATION_GUIDE.md`](./MIGRATION_GUIDE.md).

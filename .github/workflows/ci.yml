@@ -1,0 +1,52 @@
+# .github/workflows/ci.yml
+#
+# Stage 8: build/test scoped to what actually changed, not the whole
+# workspace. `nx affected` walks the dependency graph *downstream* -
+# a change to packages/task-core re-runs task-ui and task-manager too
+# (both depend on it), while a change scoped to apps/task-manager
+# alone runs only itself, since nothing in the workspace depends on
+# the app shell. See MIGRATION_GUIDE.md's Stage 8 for the reasoning.
+#
+# No deploy job for now: it needs GitHub Pages enabled first
+# (Settings > Pages > Source: GitHub Actions), which only the repo
+# owner can do. Bring it back once that's done - build task-manager,
+# actions/upload-pages-artifact, actions/deploy-pages, gated on
+# task-manager being in the affected set (see git history for the
+# version that had this wired up).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  affected:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # nx affected needs real git history to diff against, not
+          # just the single commit a shallow checkout would give it.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Sets NX_BASE/NX_HEAD correctly for both event types: the PR's
+      # base branch vs. head SHA on pull_request, the previous vs.
+      # current commit on a push to master.
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: nx affected -- test
+        run: npx nx affected --target=test --base="$NX_BASE" --head="$NX_HEAD"
+
+      - name: nx affected -- build
+        run: npx nx affected --target=build --base="$NX_BASE" --head="$NX_HEAD"

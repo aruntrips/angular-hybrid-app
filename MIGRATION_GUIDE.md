@@ -132,14 +132,23 @@ way through: one concern per stage.
 
 - Wire CI (GitHub Actions) to run `nx affected --target=build` and
   `nx affected --target=test` against the changed files, not the
-  whole workspace — a PR touching only `task-core` should never
-  trigger a `task-ui` rebuild.
+  whole workspace.
+- `affected` walks the dependency graph *downstream*: a change to
+  `task-core` correctly re-runs `task-ui` and `task-manager` too
+  (both depend on it, directly or transitively) — skipping them would
+  mean shipping an unverified change to a shared library without ever
+  re-testing its consumers against it. The direction that *does* skip
+  work is the other way: nothing in the workspace depends on
+  `task-manager` (it's the app shell, the top of the graph), so a
+  change scoped to it alone has no downstream to re-run.
 - Scope deploy to `apps/task-manager` only; `task-core` and `task-ui`
   are internal libraries, not independently published or deployed.
-- **Test gate:** a PR that touches only `packages/task-core` shows
-  `task-ui` and `task-manager`'s test/build jobs skipped in CI, not
-  just fast — genuinely not run. Confirms `affected` is actually
-  scoping correctly, not just caching.
+- **Test gate:** a PR that touches only `apps/task-manager` shows
+  `task-core` and `task-ui`'s test/build jobs skipped in CI, not just
+  fast — genuinely not run. A PR that touches only `packages/task-core`
+  shows all three projects' jobs running, `task-ui` and `task-manager`
+  included — confirms `affected` is scoping *and* propagating
+  correctly, not just caching.
 
 ---
 
