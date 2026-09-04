@@ -10,13 +10,15 @@ each commit is small enough to revert on its own.
 
 ## Status
 
-- [x] Stage 0 — characterization tests in place before any migration code
-- [x] Stage 1 — webpack + TypeScript build added alongside the existing app, unwired
-- [x] Stage 2 — hybrid bootstrap via UpgradeModule, replacing ng-app
-- [x] Stage 3 — TaskService ported to Angular, downgraded for AngularJS to keep consuming
-- [x] Stage 4 — taskItem component ported and downgraded
-- [x] Stage 5 — TaskListController ported to an Angular component
-- [x] Stage 6 — AngularJS removed entirely
+- ✅ **Stage 0** — characterization tests in place before any migration code
+- ✅ **Stage 1** — webpack + TypeScript build added alongside the existing app, unwired
+- ✅ **Stage 2** — hybrid bootstrap via `UpgradeModule`, replacing `ng-app`
+- ✅ **Stage 3** — `TaskService` ported to Angular, downgraded for AngularJS to keep consuming
+- ✅ **Stage 4** — `taskItem` component ported and downgraded
+- ✅ **Stage 5** — `TaskListController` ported to an Angular component
+- ✅ **Stage 6** — AngularJS removed entirely
+- ⬜ **Stage 7** — split into a monorepo (`apps/`/`packages/`, Nx)
+- ⬜ **Stage 8** — independent build/test/deploy per package
 
 Full write-up of the reasoning behind the ordering, and the test gate
 for each stage, is in [`MIGRATION_GUIDE.md`](./MIGRATION_GUIDE.md).

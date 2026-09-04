@@ -4,11 +4,15 @@ This app is deliberately small but structured the way real AngularJS
 apps are: a data service, a controller with real logic, and a leaf
 component. Use it to practice the *hybrid* migration pattern, where
 both frameworks run side-by-side in the same page during the
-transition, rather than a big-bang rewrite.
+transition, rather than a big-bang rewrite — and, once migrated, the
+natural next question a growing app asks: how do you split it so
+different parts build, test, and deploy independently.
 
 Mapped to the general refactor framework: lowest-risk changes first,
 one concern per step, tests at every stage, nothing removed until its
-replacement has been running safely.
+replacement has been running safely. That same framework governs
+Stages 7–8 as much as Stages 0–6 — it's just applied to folder
+topology instead of framework.
 
 ---
 
@@ -97,6 +101,48 @@ replacement has been running safely.
 
 ---
 
+## Stage 7 — Split into a monorepo
+
+This is a different axis of change from Stages 0–6 — folder topology,
+not framework — so it only starts once the migration itself is done
+and stable. Combining "finish migrating" with "restructure the repo"
+in the same stage would violate the same rule that's held the whole
+way through: one concern per stage.
+
+- Introduce an Nx workspace and split the app along the boundaries the
+  migration already revealed:
+  - `packages/task-core` — `task.service.ts` and the `Task` model.
+    This is the same file that had zero AngularJS coupling back in
+    Stage 3, which is exactly why it's the cleanest first package
+    boundary too.
+  - `packages/task-ui` — `TaskItemComponent`, `TaskListComponent`
+    (from Stages 4–5).
+  - `apps/task-manager` — the shell: `index.html`, `main.ts`,
+    `app.module.ts`, styles. The only deployable unit; everything
+    else is an internal library.
+- Each package gets its own `project.json` with independent `build`
+  and `test` targets.
+- **Test gate:** `nx run-many --target=test --all` passes for every
+  package; `nx graph` shows the dependency boundaries matching the
+  migration order (`task-ui` depends on `task-core`, `task-manager`
+  depends on both) — if it doesn't, a package boundary was drawn in
+  the wrong place.
+
+## Stage 8 — Independent build/test/deploy per package
+
+- Wire CI (GitHub Actions) to run `nx affected --target=build` and
+  `nx affected --target=test` against the changed files, not the
+  whole workspace — a PR touching only `task-core` should never
+  trigger a `task-ui` rebuild.
+- Scope deploy to `apps/task-manager` only; `task-core` and `task-ui`
+  are internal libraries, not independently published or deployed.
+- **Test gate:** a PR that touches only `packages/task-core` shows
+  `task-ui` and `task-manager`'s test/build jobs skipped in CI, not
+  just fast — genuinely not run. Confirms `affected` is actually
+  scoping correctly, not just caching.
+
+---
+
 ## Why this order
 
 Same logic as any refactor: change the thing with the fewest
@@ -105,3 +151,9 @@ only on it (`taskItem`), then the thing that depends on both
 (`TaskListController`), and only remove the old framework once nothing
 points to it. Each stage is independently revertable — if Stage 4
 breaks, Stages 1–3 are still a fully working, shippable hybrid app.
+
+The same principle extends to Stages 7–8: the monorepo package
+boundaries mirror the migration's dependency order exactly
+(`task-core` → `task-ui` → the app shell), because a boundary that
+was safe to migrate in isolation is, for the same reason, safe to
+extract into its own package in isolation.
