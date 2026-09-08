@@ -16,7 +16,7 @@ Each stage is a real, working checkpoint: the application runs and its test suit
 * ✅ **Stage 7** — application split into an Nx monorepo (`apps/` / `packages/`)
 * ✅ **Stage 8** — independent build/test/deploy per package
 
-The reasoning behind the ordering, migration decisions, and test gate for each stage is documented in [`MIGRATION_GUIDE.md`](MIGRATION_GUIDE.md).
+The reasoning behind the ordering, migration decisions, and test gate for each stage is documented in [`MIGRATION_GUIDE.md`](https://github.com/aruntrips/angular-hybrid-app/blob/main/MIGRATION_GUIDE.md).
 
 ## Migration approach
 
@@ -47,7 +47,7 @@ This approach makes it possible to:
 * migrate functionality incrementally
 * keep the existing application operational during the transition
 * introduce Angular code without requiring a big-bang rewrite
-* manage shared services and clean boundaries between legacy and modern code
+* manage shared services and clear boundaries between legacy and modern code
 * validate each migration step through the existing test suite
 * keep every meaningful migration step independently reviewable
 
@@ -96,7 +96,7 @@ npx nx graph
 
 Most migration guides describe the technique in the abstract.
 
-This repository applies the technique to a real, working codebase and preserves the migration as a sequence of observable steps.
+This repository applies the technique to a working application and preserves the migration as a sequence of observable steps.
 
 Each stage has:
 
